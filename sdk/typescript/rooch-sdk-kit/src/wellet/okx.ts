@@ -24,7 +24,7 @@ export class OkxWallet extends BitcoinWallet {
   async connect(): Promise<ThirdPartyAddress[]> {
     const obj = await this.getTarget().connect()
     this.currentAddress = new BitcoinAddress(obj.address)
-    this.publicKey = obj.compressedPublicKey
+    this.publicKey = obj.compressedPublicKey !== '' ? obj.compressedPublicKey : obj.publicKey
     this.address = [this.currentAddress]
 
     return this.address

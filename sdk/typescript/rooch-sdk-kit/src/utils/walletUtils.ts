@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { SupportChain } from '../feature/index.js'
-import { UniSatWallet, Wallet, OkxWallet } from '../wellet/index.js'
+import {
+  Wallet,
+  UniSatWallet,
+  OkxWallet,
+  OnekeyWallet,
+  // OnekeyHardwareWallet,
+} from '../wellet/index.js'
 
 export function capitalizeFirstLetter(string: string) {
   if (!string) return ''
@@ -19,9 +25,12 @@ export const formatAddress = (address?: string) => {
   return shortAddress
 }
 export async function checkWallets(filter?: SupportChain) {
-  const wallets: Wallet[] = [new UniSatWallet(), new OkxWallet()].filter(
-    (wallet) => wallet.getChain() === filter || !filter,
-  )
+  const wallets: Wallet[] = [
+    new UniSatWallet(),
+    new OkxWallet(),
+    new OnekeyWallet(),
+    // new OnekeyHardwareWallet(),
+  ].filter((wallet) => wallet.getChain() === filter || !filter)
 
   return await Promise.all(wallets.filter(async (w) => await w.checkInstalled()))
 }
